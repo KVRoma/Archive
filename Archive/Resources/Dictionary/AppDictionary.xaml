@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converter="clr-namespace:Archive.Views.Converter">
+    <!--Градиенты заливки (чорно - білий - чорний) -->
+    <LinearGradientBrush x:Key="Gradient_Black_White_Black">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.00" Color="Silver"/>
+            <GradientStop Offset="0.30" Color="White"/>
+            <GradientStop Offset="1.00" Color="Black"/>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+    <!--************************************** -->
+    <!--Градиенты заливки (голубий - білий - голубий) -->
+    <LinearGradientBrush x:Key="Gradient_Blue_White_Blue">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.00" Color="Blue"/>
+            <GradientStop Offset="0.00" Color="White"/>
+            <GradientStop Offset="0.70" Color="Blue"/>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+    <!--************************************** -->
+    <!--Градиенты заливки (блідий синій - білий - блідий синій) -->
+    <LinearGradientBrush x:Key="Gradient_LightBlue_White_LightBlue">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.00" Color="LightBlue"/>
+            <GradientStop Offset="0.30" Color="White"/>
+            <GradientStop Offset="1.00" Color="LightBlue"/>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+    <!--************************************** -->
+
+    <converter:BoolToVisibilityConverter
+         x:Key="BoolToHiddenConverter"
+         TrueValue="Visible" FalseValue="Hidden" />
+    
+    <converter:BoolToVisibilityConverter
+         x:Key="BoolToCollapsedConverter"
+         TrueValue="Visible" FalseValue="Collapsed" />
+
+
+</ResourceDictionary>
