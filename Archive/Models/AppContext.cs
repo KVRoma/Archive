@@ -12,7 +12,7 @@ namespace Archive.Models
     {
         public AppContext() : base("ConStr") { }
 
-        //public DbSet<Abonent> Abonents { get; set; }   // Підєднуємо таблиці моделі
+        public DbSet<DataStore> DataStores { get; set; }  
         //public DbSet<Adress> Adresse { get; set; }
 
 
