@@ -15,7 +15,7 @@ namespace Archive
     /// </summary>
     public partial class App : Application
     {
-        public DisplayRootRegistry displayRootRegistry = new DisplayRootRegistry();
+        public DisplayRootRegistry displayRootRegistry = new DisplayRootRegistry();        
 
         public App()
         {

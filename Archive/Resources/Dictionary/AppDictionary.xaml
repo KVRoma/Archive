@@ -29,6 +29,32 @@
     </LinearGradientBrush>
     <!--************************************** -->
 
+    <!-- Авто стиль для Menu -->
+    <Style TargetType="{x:Type Menu}">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Background" Value="{StaticResource Gradient_Blue_White_Blue}"/>                
+    </Style>
+    <!--************************************** -->
+    <!--Стиль для Border робить рамку з заокругленими краями-->
+    <Style TargetType="Border" x:Key="BorderRadius">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="SteelBlue"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+    <!--**********************************************************-->
+    <!--Стиль для Label -->
+    <Style TargetType="Label" x:Key="Title">                
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <Setter Property="FontStyle" Value="Italic"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Margin" Value="5,0,5,0"/>
+    </Style>
+    <!--***************************************************-->
+
     <converter:BoolToVisibilityConverter
          x:Key="BoolToHiddenConverter"
          TrueValue="Visible" FalseValue="Hidden" />

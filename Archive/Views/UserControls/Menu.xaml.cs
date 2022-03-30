@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Archive.Views.UserControls;
 
-namespace Archive.Views
+namespace Archive.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for MainView.xaml
+    /// Interaction logic for Menu.xaml
     /// </summary>
-    public partial class MainView : Window
+    public partial class Menu : UserControl
     {
-        public MainView()
+        public Menu()
         {
             InitializeComponent();
         }
