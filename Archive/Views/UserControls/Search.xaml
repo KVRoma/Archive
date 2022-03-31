@@ -21,24 +21,49 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>                
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             
             <Label Grid.Column="0" 
                    Content="Number"
                    Style="{StaticResource NameField}"/>
+            
             <TextBox Grid.Column="1" 
-                     MinWidth="100" MaxWidth="150"/>
+                     MinWidth="100" MaxWidth="150">
+                <TextBox.InputBindings>
+                    <KeyBinding Command="{Binding Search}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}},Path=Text}"
+                                Key="Return"/>
+                </TextBox.InputBindings>
+            </TextBox>
+            
             <Label Grid.Column="2" 
                    Content="City"
                    Style="{StaticResource NameField}"/>
+            
             <ComboBox Grid.Column="3" 
-                      MinWidth="150"/>
+                      MinWidth="150"
+                      ItemsSource="{Binding Cities}" 
+                      SelectedItem="{Binding CitySelect, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                      DisplayMemberPath="Name"/>
+            
             <Label Grid.Column="4" 
                    Content="Street"
                    Style="{StaticResource NameField}"/>
+            
             <ComboBox Grid.Column="5" 
-                      MinWidth="250"/>
+                      MinWidth="250"
+                      ItemsSource="{Binding Streets}" 
+                      SelectedItem="{Binding StreetSelect, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                      DisplayMemberPath="Name"/>
+
+            <Button Grid.Column="6" 
+                    Content="X" 
+                    HorizontalAlignment="Center" 
+                    Width="30"
+                    Foreground="Red"
+                    FontWeight="Bold" Margin="2"/>
 
         </Grid>
 
@@ -48,7 +73,16 @@
                   ItemsSource="{Binding Books, 
                                         UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="#"/>
+                <DataGridTextColumn Header="Номер" Width="auto" Binding="{Binding NumberBook}"/>
+                <DataGridTextColumn Header="Код" Width="auto" Binding="{Binding BookType.Key}"/>
+                <DataGridTextColumn Header="Реєстрація" Width="auto" Binding="{Binding Path=DateCreated, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Особовий" Width="auto" Binding="{Binding CodeNew}"/>
+                <DataGridTextColumn Header="*" Width="auto" Binding="{Binding CodeOld}"/>
+                <DataGridTextColumn Header="Нас.пункт" Width="0.5*" Binding="{Binding City.Name}"/>
+                <DataGridTextColumn Header="Вулиця" Width="*" Binding="{Binding Street.Name}"/>
+                <DataGridTextColumn Header="Буд." Width="auto" Binding="{Binding House}"/>
+                <DataGridTextColumn Header="Кв." Width="auto" Binding="{Binding Apartment}"/>
+                <DataGridTextColumn Header="Споживач" Width="0.6*" Binding="{Binding Name}"/>
             </DataGrid.Columns>
         </DataGrid>
             

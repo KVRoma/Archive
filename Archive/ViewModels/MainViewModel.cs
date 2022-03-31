@@ -37,7 +37,7 @@ namespace Archive.ViewModels
 
         #region public property
         public string TitleView { get; } = "Archive - 2022";
-        public string TitleDown { get; } = "My project";
+        public string TitleDown { get; } = "© <Kuchinik & Co.>, 2022";
        
         public Dictionary<string, Visibility> IsVisibility
         {
@@ -54,8 +54,7 @@ namespace Archive.ViewModels
             set
             { 
                 isChecked = value;
-                OnPropertyChanged(nameof(IsChecked));
-                //Checked.Execute("");
+                OnPropertyChanged(nameof(IsChecked));                
             }
         }
         public Dictionary<string, double> IsOpacity
@@ -103,6 +102,7 @@ namespace Archive.ViewModels
             {
                 citySelect = value; 
                 OnPropertyChanged(nameof(CitySelect));
+                LoadStreet();
             }
         }
         public IEnumerable<Street> Streets 
@@ -200,19 +200,26 @@ namespace Archive.ViewModels
         #region command
         private Command _exitApp;
         private Command _checked;
+        private Command _search;
 
         public Command ExitApp => _exitApp ?? (_exitApp = new Command(obj =>
         {
             ExitApplication();
         }));
         public Command Checked => _checked ?? (_checked = new Command(obj =>
+        {            
+            OnPropertyChanged(nameof(IsChecked));
+            LoadBook();
+            CitySelect = null;
+        }));
+        public Command Search => _search ?? (_search = new Command(obj =>
         {
-            var visible = IsVisibility.FirstOrDefault(x=>x.Value == Visibility.Visible).Key;
-            IsVisibility[visible] = Visibility.Collapsed;
-            var collaps = IsChecked.FirstOrDefault(x=>x.Value == true).Key;
-            IsVisibility[collaps] = Visibility.Visible;
-            OnPropertyChanged(nameof(IsVisibility));
-            
+            string item = obj.ToString() + "city" + CitySelect?.Id.ToString() + "street" + StreetSelect?.Id.ToString();
+            LoadBook();
+            if (!string.IsNullOrWhiteSpace(item))
+            {
+                Books = Books.Where(x => x.Search.ToUpper().Contains(item.ToUpper()));
+            }
         }));
         #endregion
 
@@ -250,7 +257,7 @@ namespace Archive.ViewModels
             db.Books.Load();
 
             LoadDataStore();
-            LoadStreet();
+            //LoadStreet();
             LoadCity();
             LoadDocumentType();
             LoadDocument();
@@ -263,7 +270,7 @@ namespace Archive.ViewModels
         }
         private void LoadStreet()
         {
-            Streets = db.Streets.Local.ToBindingList();
+            Streets = db.Streets.Local.ToBindingList().Where(x=>x.CityId == CitySelect?.Id);
         }
         private void LoadCity()
         {
@@ -288,10 +295,7 @@ namespace Archive.ViewModels
         private void LoadIsIsVisibility()
         {
             IsVisibility = new Dictionary<string, Visibility>
-            {
-                { ControlName.Report, Visibility.Visible},
-                { ControlName.Search, Visibility.Collapsed},
-                { ControlName.Added, Visibility.Collapsed },
+            {                
                 { ControlName.ProgressBar, Visibility.Collapsed}
             };
         }

@@ -97,6 +97,9 @@
     <Compile Include="NotifyTaskCompletion.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="Views\UserControls\Added.xaml.cs">
+      <DependentUpon>Added.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
@@ -127,6 +130,10 @@
     <Page Include="Resources\Dictionary\AppDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\Added.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\Menu.xaml">
       <SubType>Designer</SubType>

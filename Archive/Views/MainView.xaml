@@ -12,8 +12,7 @@
         Height="450"
         Width="960"
         Background="{StaticResource Gradient_LightBlue_White_LightBlue}">
-    <Grid Opacity="{Binding IsOpacity[ScreenOpacity], 
-                            UpdateSourceTrigger=PropertyChanged}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
@@ -38,11 +37,22 @@
                             Visibility="{Binding IsVisibility[ProgressBar], 
                                                  UpdateSourceTrigger=PropertyChanged}"/>
             <Border Grid.Column="1"
-                    Style="{StaticResource BorderRadius}"
-                    Visibility="{Binding IsVisibility[Search], Mode=TwoWay, 
-                                         UpdateSourceTrigger=PropertyChanged}">
-                <uc:Search/>
-            </Border>            
+                    Style="{StaticResource BorderRadius}">
+                <uc:Search Visibility="{Binding Path=IsChecked[Search], 
+                                         UpdateSourceTrigger=PropertyChanged, 
+                                         Converter={StaticResource BoolToCollapsedConverter}}"
+                           Opacity="{Binding IsOpacity[ScreenOpacity], 
+                                             UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
+
+            <Border Grid.Column="1"
+                    Style="{StaticResource BorderRadius}">
+                <uc:Added Visibility="{Binding Path=IsChecked[Added], 
+                                         UpdateSourceTrigger=PropertyChanged, 
+                                         Converter={StaticResource BoolToCollapsedConverter}}"
+                          Opacity="{Binding IsOpacity[ScreenOpacity], 
+                                            UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
         </Grid>
 
         <Label Grid.Row="2" 

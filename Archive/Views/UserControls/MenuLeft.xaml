@@ -31,12 +31,7 @@
                          IsChecked="{Binding IsChecked[Added], 
                                              Mode=TwoWay, 
                                              UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Content="Перегляд" 
-                    Style="{StaticResource FooterButton}"
-                    Margin="5,100,5,5"
-                    Foreground="Green"
-                    BorderBrush="Green"                        
-                    Command="{Binding ViewReport}"/>
+            
         </StackPanel>
     </Grid>
 </UserControl>
