@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="Archive.Views.UserControls.Search"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Archive.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" 
+             d:DesignWidth="900"
+             d:Background="Silver">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>                
+            </Grid.ColumnDefinitions>
+            
+            <Label Grid.Column="0" 
+                   Content="Number"
+                   Style="{StaticResource NameField}"/>
+            <TextBox Grid.Column="1" 
+                     MinWidth="100" MaxWidth="150"/>
+            <Label Grid.Column="2" 
+                   Content="City"
+                   Style="{StaticResource NameField}"/>
+            <ComboBox Grid.Column="3" 
+                      MinWidth="150"/>
+            <Label Grid.Column="4" 
+                   Content="Street"
+                   Style="{StaticResource NameField}"/>
+            <ComboBox Grid.Column="5" 
+                      MinWidth="250"/>
+
+        </Grid>
+
+        <DataGrid Grid.Row="1" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True"
+                  ItemsSource="{Binding Books, 
+                                        UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="#"/>
+            </DataGrid.Columns>
+        </DataGrid>
+            
+    </Grid>
+</UserControl>

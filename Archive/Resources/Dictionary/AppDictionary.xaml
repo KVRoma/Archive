@@ -54,6 +54,113 @@
         <Setter Property="Margin" Value="5,0,5,0"/>
     </Style>
     <!--***************************************************-->
+    <!--Стиль для Label сірий для ProgressBar-->
+    <Style TargetType="Label" x:Key="ProgressBar">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="Red"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+    <!--**********************************************************-->
+    <!--Стиль для Label-->
+    <Style TargetType="Label" x:Key="NameField">
+        <Setter Property="FontWeight" Value="Bold"/>        
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="2"/>
+    </Style>
+    <!--**********************************************************-->
+    <!-- Авто стиль для TextBox Wrap -->
+    <Style TargetType="{x:Type TextBox}">        
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="Blue"/>
+        <Setter Property="Margin" Value="2"/>
+    </Style>
+    <!--**********************************************************-->
+    <!-- Авто стиль для TextBlock Wrap and PressEnter -->
+    <Style TargetType="TextBlock" x:Key="Cell">
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Margin" Value="2"/>
+    </Style>
+    <!--**********************************************************-->
+    <!--Авто стиль для DataGrit TextCollumn-->
+    <Style TargetType="{x:Type DataGridColumnHeader}">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    <!--**********************************************************-->
+    <!-- Авто стиль для ComboBox -->
+    <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="Blue"/>
+        <Setter Property="Margin" Value="2"/>
+    </Style>
+    <!--**********************************************************-->
+    <!--Cтиль для RadioButton -->
+    <Style TargetType="RadioButton" x:Key="MenuLeft">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="GroupName" Value="Report"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="Blue"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="Red"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <!--**********************************************************-->
+    <!--Стиль для Button in Footer Menu-->
+    <Style TargetType="Button" x:Key="FooterButton">
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="60"/>        
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="buttonBorder"                             
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            Height="{TemplateBinding Height}"
+                            Width="{TemplateBinding Width}" >
+                        <ContentControl Margin="{TemplateBinding Padding}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Content="{TemplateBinding Content}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="buttonBorder" Property="Background" Value="Azure" />
+                            <Setter TargetName="buttonBorder" Property="BorderBrush" Value="DarkBlue" />
+                            <Setter TargetName="buttonBorder" Property="BorderThickness" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="Gray"/>
+                            <Setter TargetName="buttonBorder" Property="Background" Value="LightGray"/>
+                            <Setter TargetName="buttonBorder" Property="BorderBrush"  Value="LightGray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--**********************************************************-->
 
     <converter:BoolToVisibilityConverter
          x:Key="BoolToHiddenConverter"

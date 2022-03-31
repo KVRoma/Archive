@@ -12,7 +12,7 @@ namespace Archive.ViewModels
     public class MainViewModel : ViewModel
     {
         #region private property
-        ArchiveContext db;
+        ArchiveContext db;        
                 
         private Dictionary<string, Visibility> isVisibility;
         private Dictionary<string, bool> isChecked;
@@ -199,15 +199,25 @@ namespace Archive.ViewModels
 
         public MainViewModel()
         {
-            LoadDataBase();
+            LoadIsIsVisibility();
+            LoadIsChecked();
+            LoadIsOpacity();
+                        
+            LoadDataBase();            
         }
 
         #region methods
         private void ProgressBarStart()
-        { 
+        {
+            IsVisibility["ProgressBar"] = Visibility.Visible;
+            OnPropertyChanged(nameof(IsVisibility));
+            IsOpacity["Screen"] = 0d;
         }
         private void ProgressBarStop()
-        { 
+        {
+            IsVisibility["ProgressBar"] = Visibility.Collapsed;
+            OnPropertyChanged(nameof(IsVisibility));
+            IsOpacity["Screen"] = 1d;
         }
         private void LoadDataBase()
         {
@@ -256,6 +266,33 @@ namespace Archive.ViewModels
         {
             Books = db.Books.Local.ToBindingList();
         }
+        private void LoadIsIsVisibility()
+        {
+            IsVisibility = new Dictionary<string, Visibility>
+            {
+                { "Report", Visibility.Visible},
+                { "Search", Visibility.Collapsed },
+                { "Added", Visibility.Collapsed },
+                { "ProgressBar", Visibility.Collapsed}
+            };
+        }
+        private void LoadIsChecked()
+        {
+            IsChecked = new Dictionary<string, bool>
+            {
+                { "Report", true },
+                { "Search", false },
+                { "Added", false }
+            };
+        }
+        private void LoadIsOpacity()
+        {
+            IsOpacity = new Dictionary<string, double>
+            {
+                { "Screen", 1d}                
+            };            
+        }
+
         #endregion
     }
 }

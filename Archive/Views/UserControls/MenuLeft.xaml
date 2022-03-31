@@ -5,11 +5,38 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Archive.Views.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="150">
-    <StackPanel Orientation="Vertical">
-        <Button Content="One"/>
-        <Button Content="Two"/>
-        <Button Content="Thre"/>
+             d:DesignHeight="450" 
+             d:DesignWidth="150"
+             d:Background="Silver">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <Label Grid.Row="0" Style="{StaticResource NameField}" 
+                   Content="Вибір дії" 
+                   HorizontalAlignment="Center"
+                   FontSize="20"
+                   Margin="0,0,0,30"/>
 
-    </StackPanel>
+            <RadioButton Content="Статистика"
+                         Style="{StaticResource MenuLeft}"
+                         IsChecked="{Binding IsChecked[Report], 
+                                             Mode=TwoWay,
+                                             UpdateSourceTrigger=PropertyChanged}"/>
+            <RadioButton Content="Пошук"
+                         Style="{StaticResource MenuLeft}"
+                         IsChecked="{Binding IsChecked[Search], 
+                                             Mode=TwoWay, 
+                                             UpdateSourceTrigger=PropertyChanged}"/>
+            <RadioButton Content="Реєстрація"
+                         Style="{StaticResource MenuLeft}"
+                         IsChecked="{Binding IsChecked[Added], 
+                                             Mode=TwoWay, 
+                                             UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Content="Перегляд" 
+                    Style="{StaticResource FooterButton}"
+                    Margin="5,100,5,5"
+                    Foreground="Green"
+                    BorderBrush="Green"                        
+                    Command="{Binding ViewReport}"/>
+        </StackPanel>
+    </Grid>
 </UserControl>
