@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Archive.Views.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="800">
+             d:DesignHeight="50" d:DesignWidth="300">
     <Menu>
         <MenuItem Header="File">
             <MenuItem Header="New"/>
             <MenuItem Header="New"/>
             <Separator/>
-            <MenuItem Header="Exit" Foreground="Red"/>
+            <MenuItem Header="Exit" Foreground="Red" Command="{Binding ExitApp}"/>
         </MenuItem>
         <MenuItem Header="Info">
 

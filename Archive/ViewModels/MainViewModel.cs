@@ -6,13 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Archive.Models;
+using Archive.Services;
 
 namespace Archive.ViewModels
 {
     public class MainViewModel : ViewModel
     {
         #region private property
-        ArchiveContext db;        
+        ArchiveContext db;
+        
                 
         private Dictionary<string, Visibility> isVisibility;
         private Dictionary<string, bool> isChecked;
@@ -50,9 +52,10 @@ namespace Archive.ViewModels
         {
             get => isChecked; 
             set
-            {
+            { 
                 isChecked = value;
                 OnPropertyChanged(nameof(IsChecked));
+                //Checked.Execute("");
             }
         }
         public Dictionary<string, double> IsOpacity
@@ -195,6 +198,22 @@ namespace Archive.ViewModels
         #endregion
 
         #region command
+        private Command _exitApp;
+        private Command _checked;
+
+        public Command ExitApp => _exitApp ?? (_exitApp = new Command(obj =>
+        {
+            ExitApplication();
+        }));
+        public Command Checked => _checked ?? (_checked = new Command(obj =>
+        {
+            var visible = IsVisibility.FirstOrDefault(x=>x.Value == Visibility.Visible).Key;
+            IsVisibility[visible] = Visibility.Collapsed;
+            var collaps = IsChecked.FirstOrDefault(x=>x.Value == true).Key;
+            IsVisibility[collaps] = Visibility.Visible;
+            OnPropertyChanged(nameof(IsVisibility));
+            
+        }));
         #endregion
 
         public MainViewModel()
@@ -209,15 +228,15 @@ namespace Archive.ViewModels
         #region methods
         private void ProgressBarStart()
         {
-            IsVisibility["ProgressBar"] = Visibility.Visible;
+            IsVisibility[ControlName.ProgressBar] = Visibility.Visible;
             OnPropertyChanged(nameof(IsVisibility));
-            IsOpacity["Screen"] = 0d;
+            IsOpacity[ControlName.ScreenOpacity] = 0d;
         }
         private void ProgressBarStop()
         {
-            IsVisibility["ProgressBar"] = Visibility.Collapsed;
+            IsVisibility[ControlName.ProgressBar] = Visibility.Collapsed;
             OnPropertyChanged(nameof(IsVisibility));
-            IsOpacity["Screen"] = 1d;
+            IsOpacity[ControlName.ScreenOpacity] = 1d;
         }
         private void LoadDataBase()
         {
@@ -270,27 +289,33 @@ namespace Archive.ViewModels
         {
             IsVisibility = new Dictionary<string, Visibility>
             {
-                { "Report", Visibility.Visible},
-                { "Search", Visibility.Collapsed },
-                { "Added", Visibility.Collapsed },
-                { "ProgressBar", Visibility.Collapsed}
+                { ControlName.Report, Visibility.Visible},
+                { ControlName.Search, Visibility.Collapsed},
+                { ControlName.Added, Visibility.Collapsed },
+                { ControlName.ProgressBar, Visibility.Collapsed}
             };
         }
         private void LoadIsChecked()
         {
             IsChecked = new Dictionary<string, bool>
             {
-                { "Report", true },
-                { "Search", false },
-                { "Added", false }
+                { ControlName.Report, true },
+                { ControlName.Search, false },
+                { ControlName.Added, false }
             };
         }
         private void LoadIsOpacity()
         {
             IsOpacity = new Dictionary<string, double>
             {
-                { "Screen", 1d}                
+                { ControlName.ScreenOpacity, 1d}                
             };            
+        }
+        private void ExitApplication()
+        {
+            db.Dispose();
+            Application app = Application.Current;
+            app.Shutdown();
         }
 
         #endregion

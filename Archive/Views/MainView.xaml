@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Archive.Views"
-        xmlns:uc="clr-namespace:Archive.Views.UserControls"
+        xmlns:uc="clr-namespace:Archive.Views.UserControls"        
         mc:Ignorable="d"
         Title="{Binding TitleView}" 
         MinHeight="400" 
@@ -12,7 +12,7 @@
         Height="450"
         Width="960"
         Background="{StaticResource Gradient_LightBlue_White_LightBlue}">
-    <Grid Opacity="{Binding IsOpacity[Screen], 
+    <Grid Opacity="{Binding IsOpacity[ScreenOpacity], 
                             UpdateSourceTrigger=PropertyChanged}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -38,7 +38,9 @@
                             Visibility="{Binding IsVisibility[ProgressBar], 
                                                  UpdateSourceTrigger=PropertyChanged}"/>
             <Border Grid.Column="1"
-                    Style="{StaticResource BorderRadius}">
+                    Style="{StaticResource BorderRadius}"
+                    Visibility="{Binding IsVisibility[Search], Mode=TwoWay, 
+                                         UpdateSourceTrigger=PropertyChanged}">
                 <uc:Search/>
             </Border>            
         </Grid>

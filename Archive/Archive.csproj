@@ -91,6 +91,7 @@
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\DocumentType.cs" />
     <Compile Include="Models\Street.cs" />
+    <Compile Include="Services\ControlName.cs" />
     <Compile Include="Views\Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="DisplayRootRegistry.cs" />
     <Compile Include="NotifyTaskCompletion.cs" />
@@ -174,9 +175,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

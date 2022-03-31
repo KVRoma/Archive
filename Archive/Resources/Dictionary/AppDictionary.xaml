@@ -116,6 +116,7 @@
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Background" Value="Red"/>
+                <Setter Property="Command" Value="{Binding Checked}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
