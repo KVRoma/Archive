@@ -18,7 +18,8 @@ namespace Archive.ViewModels
                 
         private Dictionary<string, Visibility> isVisibility;
         private Dictionary<string, bool> isChecked;
-        private Dictionary<string, double> isOpacity;        
+        private Dictionary<string, double> isOpacity;
+        private Dictionary<string, string> textBoxData;
         private IEnumerable<DataStore> dataStores;
         private DataStore dataStoreSelect;
         private IEnumerable<City> cities;
@@ -66,6 +67,15 @@ namespace Archive.ViewModels
                 OnPropertyChanged(nameof(IsOpacity));
             }
         }
+        public Dictionary<string, string> TextBoxData 
+        { 
+            get => textBoxData;
+            set 
+            { 
+                textBoxData = value;
+                OnPropertyChanged(nameof(TextBoxData));
+            } 
+        }
 
         public IEnumerable<DataStore> DataStores
         {
@@ -83,6 +93,17 @@ namespace Archive.ViewModels
             {
                 dataStoreSelect = value;
                 OnPropertyChanged(nameof(DataStoreSelect));
+
+                if (DataStoreSelect != null)
+                {
+                    CitySelect = Cities.FirstOrDefault(x => x.Name == DataStoreSelect.City);
+                    StreetSelect = Streets.FirstOrDefault(x => x.Name == DataStoreSelect.Street);
+                    TextBoxData[ControlName.House] = DataStoreSelect.House;
+                    TextBoxData[ControlName.Apartment] = DataStoreSelect.Apartment;
+                    TextBoxData[ControlName.CodeNew] = DataStoreSelect.Code;
+                    TextBoxData[ControlName.NameBook] = DataStoreSelect.Name;
+                    OnPropertyChanged(nameof(TextBoxData));
+                }
             }
         }
 
@@ -201,16 +222,25 @@ namespace Archive.ViewModels
         private Command _exitApp;
         private Command _checked;
         private Command _search;
+        private Command _clearAdded;
+        private Command _searchAdded;
 
         public Command ExitApp => _exitApp ?? (_exitApp = new Command(obj =>
         {
             ExitApplication();
         }));
-        public Command Checked => _checked ?? (_checked = new Command(obj =>
+        public Command Checked => _checked ?? (_checked = new Command(async obj =>
         {            
             OnPropertyChanged(nameof(IsChecked));
-            LoadBook();
-            CitySelect = null;
+            ProgressBarStart();
+            await Task.Run(() => 
+            {
+                LoadBook();                
+                CitySelect = null;
+                BookTypeSelect = BookTypes.First();
+                
+            });
+            ProgressBarStop();                        
         }));
         public Command Search => _search ?? (_search = new Command(obj =>
         {
@@ -221,6 +251,25 @@ namespace Archive.ViewModels
                 Books = Books.Where(x => x.Search.ToUpper().Contains(item.ToUpper()));
             }
         }));
+        public Command ClearAdded => _clearAdded ?? (_clearAdded = new Command(async obj =>
+        {            
+            ProgressBarStart();
+            await Task.Run(() =>
+            {
+                LoadTextBoxData();                
+                DataStoreSelect = null;                
+                LoadDataStore();                
+                CitySelect = null;
+                BookTypeSelect = null;
+            });
+            ProgressBarStop();            
+        }));
+        public Command SearchAdded => _searchAdded ?? (_searchAdded = new Command(obj =>
+        {
+            string str = CitySelect?.Name + StreetSelect?.Name + TextBoxData[ControlName.House] + TextBoxData[ControlName.Apartment];
+            DataStores = DataStores.Where(x=>x.Search.ToUpper().Contains(str.ToUpper()));
+        }));
+                
         #endregion
 
         public MainViewModel()
@@ -228,6 +277,7 @@ namespace Archive.ViewModels
             LoadIsIsVisibility();
             LoadIsChecked();
             LoadIsOpacity();
+            LoadTextBoxData();
                         
             LoadDataBase();            
         }
@@ -238,12 +288,14 @@ namespace Archive.ViewModels
             IsVisibility[ControlName.ProgressBar] = Visibility.Visible;
             OnPropertyChanged(nameof(IsVisibility));
             IsOpacity[ControlName.ScreenOpacity] = 0d;
+            OnPropertyChanged(nameof(IsOpacity));
         }
         private void ProgressBarStop()
         {
             IsVisibility[ControlName.ProgressBar] = Visibility.Collapsed;
             OnPropertyChanged(nameof(IsVisibility));
             IsOpacity[ControlName.ScreenOpacity] = 1d;
+            OnPropertyChanged(nameof(IsOpacity));
         }
         private void LoadDataBase()
         {
@@ -266,7 +318,7 @@ namespace Archive.ViewModels
         }
         private void LoadDataStore()
         {
-            DataStores = db.DataStores.Local.ToBindingList();
+            DataStores = db.DataStores.Local.ToBindingList().OrderBy(x=>x.Id);
         }
         private void LoadStreet()
         {
@@ -286,12 +338,13 @@ namespace Archive.ViewModels
         }
         private void LoadBookType()
         {
-            BookTypes = db.BookTypes.Local.ToBindingList();
+            BookTypes = db.BookTypes.Local.ToBindingList();            
         }
         private void LoadBook()
         {
-            Books = db.Books.Local.ToBindingList();
+            Books = db.Books.Local.ToBindingList().OrderBy(x=>x.NumberBook);
         }
+        
         private void LoadIsIsVisibility()
         {
             IsVisibility = new Dictionary<string, Visibility>
@@ -315,6 +368,18 @@ namespace Archive.ViewModels
                 { ControlName.ScreenOpacity, 1d}                
             };            
         }
+        private void LoadTextBoxData()
+        {
+            TextBoxData = new Dictionary<string, string>
+            {
+                { ControlName.House, ""},
+                { ControlName.Apartment, ""},
+                { ControlName.CodeNew, ""},
+                { ControlName.CodeOld, ""},
+                { ControlName.NameBook, ""}
+            };
+        }
+        
         private void ExitApplication()
         {
             db.Dispose();

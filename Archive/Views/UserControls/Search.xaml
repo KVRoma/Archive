@@ -71,7 +71,9 @@
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
                   ItemsSource="{Binding Books, 
-                                        UpdateSourceTrigger=PropertyChanged}">
+                                        UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding BookSelect, 
+                                         UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер" Width="auto" Binding="{Binding NumberBook}"/>
                 <DataGridTextColumn Header="Код" Width="auto" Binding="{Binding BookType.Key}"/>

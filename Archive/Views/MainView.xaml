@@ -7,10 +7,10 @@
         xmlns:uc="clr-namespace:Archive.Views.UserControls"        
         mc:Ignorable="d"
         Title="{Binding TitleView}" 
-        MinHeight="400" 
-        MinWidth="960"
-        Height="450"
-        Width="960"
+        MinHeight="600" 
+        MinWidth="1100"
+        Height="650"
+        Width="1200"
         Background="{StaticResource Gradient_LightBlue_White_LightBlue}">
     <Grid>
         <Grid.RowDefinitions>

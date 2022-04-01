@@ -23,15 +23,22 @@ namespace Archive.Models
         public string CounterChecking { get; set; }   
         public string CounterSeal { get; set; }
 
-        public string CounterInfo 
+        public string CounterInfo
         {
-            get 
+            get
             {
                 return (string.IsNullOrWhiteSpace(CounterName) ? "" : ("Лічильник " + CounterName + ", " + Environment.NewLine)) +
                        (string.IsNullOrWhiteSpace(CounterNumber) ? "" : ("N " + CounterNumber + ", " + Environment.NewLine)) +
                        (string.IsNullOrWhiteSpace(CounterDate) ? "" : ("Дата виготовлення " + CounterDate + ", " + Environment.NewLine)) +
                        (string.IsNullOrWhiteSpace(CounterChecking) ? "" : ("Дата повірки " + CounterChecking + ", " + Environment.NewLine)) +
                        (string.IsNullOrWhiteSpace(CounterSeal) ? "" : ("Пломба N " + CounterSeal + Environment.NewLine));
+            }
+        }
+        public string Search
+        {
+            get
+            {
+                return City + Street + House + Apartment;
             }
         }
     }

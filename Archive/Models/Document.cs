@@ -18,6 +18,8 @@ namespace Archive.Models
         public bool IsScannedDocument { get; set; } = false; 
         public string PathScannedDocument { get; set; }
 
+        public int BookId { get; set; }
+        public Book Book { get; set; }
 
         public int DocumentTypeId { get; set; }   
         public DocumentType DocumentType { get; set; }  

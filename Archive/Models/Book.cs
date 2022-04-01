@@ -23,8 +23,8 @@ namespace Archive.Models
         public int StreetId { get; set; }
         public Street Street { get; set; }
 
-        public int DocumentId { get; set; }
-        public Document Document { get; set; }
+        
+        public List<Document> Documents { get; set; } = new List<Document>();
 
         public int BookTypeId { get; set; }
         public BookType BookType { get; set; }
