@@ -29,7 +29,7 @@ namespace Archive.Models
             {
                 return (string.IsNullOrWhiteSpace(CounterName) ? "" : ("Лічильник " + CounterName + ", " + Environment.NewLine)) +
                        (string.IsNullOrWhiteSpace(CounterNumber) ? "" : ("N " + CounterNumber + ", " + Environment.NewLine)) +
-                       (string.IsNullOrWhiteSpace(CounterDate) ? "" : ("Дата виготовлення " + CounterDate + ", " + Environment.NewLine)) +
+                       (string.IsNullOrWhiteSpace(CounterDate) ? "" : ("Дата встановлення " + CounterDate + ", " + Environment.NewLine)) +
                        (string.IsNullOrWhiteSpace(CounterChecking) ? "" : ("Дата повірки " + CounterChecking + ", " + Environment.NewLine)) +
                        (string.IsNullOrWhiteSpace(CounterSeal) ? "" : ("Пломба N " + CounterSeal + Environment.NewLine));
             }
@@ -39,6 +39,14 @@ namespace Archive.Models
             get
             {
                 return City + Street + House + Apartment;
+            }
+        }
+
+        public string Address
+        {
+            get
+            {
+                return City + " " + Street + " буд. " + House + (string.IsNullOrWhiteSpace(Apartment) ? "" : " кв. " + Apartment);
             }
         }
     }

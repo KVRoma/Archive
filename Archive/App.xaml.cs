@@ -20,6 +20,8 @@ namespace Archive
         public App()
         {
             displayRootRegistry.RegisterWindowType<MainViewModel, MainView>();
+            displayRootRegistry.RegisterWindowType<InformationViewModel, InformationView>();
+            displayRootRegistry.RegisterWindowType<DocumentViewModel, DocumentView>();
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -33,6 +35,8 @@ namespace Archive
         protected override void OnExit(ExitEventArgs e)
         {
             displayRootRegistry.UnregisterWindowType<MainViewModel>();
+            displayRootRegistry.UnregisterWindowType<InformationViewModel>();
+            displayRootRegistry.UnregisterWindowType<DocumentViewModel>();
 
             base.OnExit(e);
         }

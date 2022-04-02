@@ -7,14 +7,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="300">
     <Menu>
-        <MenuItem Header="File">
-            <MenuItem Header="New"/>
-            <MenuItem Header="New"/>
+        <MenuItem Header="Робота">
+            <MenuItem Header="Друк"/>
+            
             <Separator/>
-            <MenuItem Header="Exit" Foreground="Red" Command="{Binding ExitApp}"/>
+            <MenuItem Header="Вихід" Foreground="Red" Command="{Binding ExitApp}"/>
         </MenuItem>
-        <MenuItem Header="Info">
-
+        <MenuItem Header="Довідники">
+            <MenuItem Header="Населені пункти"/>
+            <MenuItem Header="Вулиці"/>
+            <MenuItem Header="Назва справи"/>
+            <MenuItem Header="Назва документу"/>
         </MenuItem>
     </Menu>
 </UserControl>

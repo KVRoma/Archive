@@ -15,7 +15,6 @@ namespace Archive.ViewModels
         #region private property
         ArchiveContext db;
         
-                
         private Dictionary<string, Visibility> isVisibility;
         private Dictionary<string, bool> isChecked;
         private Dictionary<string, double> isOpacity;
@@ -37,7 +36,7 @@ namespace Archive.ViewModels
         #endregion
 
         #region public property
-        public string TitleView { get; } = "Archive - 2022";
+        public string TitleView { get; } = "Архів - 2022";
         public string TitleDown { get; } = "© <Kuchinik & Co.>, 2022";
        
         public Dictionary<string, Visibility> IsVisibility
@@ -214,6 +213,7 @@ namespace Archive.ViewModels
             {
                 bookSelect = value;
                 OnPropertyChanged(nameof(BookSelect));
+                LoadDocument();
             }
         }
         #endregion
@@ -224,6 +224,15 @@ namespace Archive.ViewModels
         private Command _search;
         private Command _clearAdded;
         private Command _searchAdded;
+        private Command _infoDataStore;
+        private Command _register;
+        private Command _addDocument;
+        private Command _insDocument;
+        private Command _delDocument;
+        private Command _delBook;
+        private Command _addDic;
+        private Command _insDic;
+        private Command _delDic;
 
         public Command ExitApp => _exitApp ?? (_exitApp = new Command(obj =>
         {
@@ -244,7 +253,7 @@ namespace Archive.ViewModels
         }));
         public Command Search => _search ?? (_search = new Command(obj =>
         {
-            string item = obj.ToString() + "city" + CitySelect?.Id.ToString() + "street" + StreetSelect?.Id.ToString();
+            string item = obj.ToString() + CitySelect?.Id.ToString() + StreetSelect?.Id.ToString();
             LoadBook();
             if (!string.IsNullOrWhiteSpace(item))
             {
@@ -259,8 +268,7 @@ namespace Archive.ViewModels
                 LoadTextBoxData();                
                 DataStoreSelect = null;                
                 LoadDataStore();                
-                CitySelect = null;
-                BookTypeSelect = null;
+                CitySelect = null;                
             });
             ProgressBarStop();            
         }));
@@ -269,7 +277,109 @@ namespace Archive.ViewModels
             string str = CitySelect?.Name + StreetSelect?.Name + TextBoxData[ControlName.House] + TextBoxData[ControlName.Apartment];
             DataStores = DataStores.Where(x=>x.Search.ToUpper().Contains(str.ToUpper()));
         }));
+        public Command InfoDataStore => _infoDataStore ?? (_infoDataStore = new Command( async obj =>
+        {
+            if (DataStoreSelect != null)
+            {
+                var displayRootRegistry = (Application.Current as App).displayRootRegistry;
+                InformationViewModel info = new InformationViewModel();
+                info.Data = DataStoreSelect;
+                await displayRootRegistry.ShowModalPresentation(info);
+            }
+        }));
+        public Command Register => _register ?? (_register = new Command(async obj =>
+        {
+            if (!string.IsNullOrWhiteSpace(BookTypeSelect?.Name) &&
+                !string.IsNullOrWhiteSpace(CitySelect?.Name) &&
+                !string.IsNullOrWhiteSpace(StreetSelect?.Name) &&
+                !string.IsNullOrWhiteSpace(TextBoxData[ControlName.CodeNew]) &&
+                !string.IsNullOrWhiteSpace(TextBoxData[ControlName.NameBook]))
+            {
+                ProgressBarStart();
+                await Task.Run(() =>
+                {
+                    var num = db.Books.Where(x=>x.BookTypeId == BookTypeSelect.Id)?.Count();
+                    num = (num != null) ? num + 1 : 1;
+
+                    Book item = new Book() 
+                    {
+                        NumberBook = num.ToString() + BookTypeSelect.Key,
+                        CodeNew = TextBoxData[ControlName.CodeNew],
+                        CodeOld = TextBoxData[ControlName.CodeOld],
+                        Name = TextBoxData[ControlName.NameBook],                        
+                        City = CitySelect,                        
+                        Street = StreetSelect,
+                        House = TextBoxData[ControlName.House],
+                        Apartment = TextBoxData[ControlName.Apartment],                        
+                        BookType = BookTypeSelect
+                    };
+                    db.Books.Add(item);
+                    db.SaveChanges();
+                    ClearAdded.Execute("");                    
+                });
+                ProgressBarStop();
+            }            
+        }));
+        public Command AddDocument => _addDocument ?? (_addDocument = new Command(async obj => 
+        {
+            if (BookSelect != null)
+            {
+                var displayRootRegistry = (Application.Current as App).displayRootRegistry;
+                DocumentViewModel document = new DocumentViewModel();
+                document.DocTypes = DocumentTypes;
+                document.Name = "Створення";
+                document.Doc = new Document();                                               
+                await displayRootRegistry.ShowModalPresentation(document);
                 
+                if (document.IsSuccess)
+                {
+                    document.Doc.Book = BookSelect;
+                    db.Documents.Add(document.Doc);                    
+                    db.SaveChanges();
+                    LoadDocument();
+                }                
+            }
+        }));
+        public Command InsDocument => _insDocument ?? (_insDocument = new Command(async obj => 
+        {
+            if (DocumentSelect != null)
+            {
+                var displayRootRegistry = (Application.Current as App).displayRootRegistry;
+                DocumentViewModel document = new DocumentViewModel();
+                document.DocTypes = DocumentTypes;
+                document.DocTypeSelect = DocumentTypes.FirstOrDefault(x => x.Id == DocumentSelect.DocumentTypeId);
+                document.Name = "Редагування";
+                document.Doc = DocumentSelect;                
+                await displayRootRegistry.ShowModalPresentation(document);
+                if (document.IsSuccess)
+                {
+                    db.Entry(document.Doc).State = EntityState.Modified;                    
+                    db.SaveChanges();
+                    LoadDocument();
+                }
+            }
+        }));
+        public Command DelDocument => _delDocument ?? (_delDocument = new Command(obj => 
+        {
+            if (DocumentSelect != null)
+            {
+                db.Documents.Remove(DocumentSelect);
+                db.SaveChanges();
+                LoadDocument();
+            }
+        }));
+        public Command DelBook => _delBook ?? (_delBook = new Command(obj => 
+        {
+            if (BookSelect != null)
+            {
+                db.Books.Remove(BookSelect);
+                db.SaveChanges();
+                LoadBook();
+            }
+        }));
+        public Command AddDic => _addDic ?? (_addDic = new Command(obj => { }));
+        public Command InsDic => _insDic ?? (_insDic = new Command(obj => { }));
+        public Command DelDic => _delDic ?? (_delDic = new Command(obj => { }));
         #endregion
 
         public MainViewModel()
@@ -308,11 +418,9 @@ namespace Archive.ViewModels
             db.BookTypes.Load();
             db.Books.Load();
 
-            LoadDataStore();
-            //LoadStreet();
+            LoadDataStore();            
             LoadCity();
-            LoadDocumentType();
-            LoadDocument();
+            LoadDocumentType();            
             LoadBookType();
             LoadBook();
         }
@@ -334,7 +442,7 @@ namespace Archive.ViewModels
         }
         private void LoadDocument()
         {
-            Documents = db.Documents.Local.ToBindingList();
+            Documents = db.Documents.Local.ToBindingList().Where(x=>x.BookId == BookSelect?.Id);
         }
         private void LoadBookType()
         {

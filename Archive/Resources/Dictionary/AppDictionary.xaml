@@ -33,6 +33,7 @@
     <Style TargetType="{x:Type Menu}">
         <Setter Property="Margin" Value="5"/>
         <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="20"/>
         <Setter Property="Background" Value="{StaticResource Gradient_Blue_White_Blue}"/>                
     </Style>
     <!--************************************** -->
@@ -78,13 +79,16 @@
         <Setter Property="Margin" Value="2"/>
     </Style>
     <!--**********************************************************-->
-    <!-- Авто стиль для TextBlock Wrap and PressEnter -->
+    <!-- Стиль для TextBlock Wrap -->
     <Style TargetType="TextBlock" x:Key="Cell">
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Foreground" Value="Blue"/>
+        <Setter Property="FontStyle" Value="Italic"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Margin" Value="5"/>
     </Style>
     <!--**********************************************************-->
     <!--Авто стиль для DataGrit TextCollumn-->

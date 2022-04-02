@@ -11,7 +11,10 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="0.5*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -21,8 +24,7 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>                
             </Grid.ColumnDefinitions>
             
             <Label Grid.Column="0" 
@@ -58,12 +60,7 @@
                       SelectedItem="{Binding StreetSelect, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                       DisplayMemberPath="Name"/>
 
-            <Button Grid.Column="6" 
-                    Content="X" 
-                    HorizontalAlignment="Center" 
-                    Width="30"
-                    Foreground="Red"
-                    FontWeight="Bold" Margin="2"/>
+            
 
         </Grid>
 
@@ -74,19 +71,73 @@
                                         UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding BookSelect, 
                                          UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding AddDocument}"/>
+            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер" Width="auto" Binding="{Binding NumberBook}"/>
-                <DataGridTextColumn Header="Код" Width="auto" Binding="{Binding BookType.Key}"/>
+                <DataGridTextColumn Header="Опис" Width="auto" Binding="{Binding BookType.Name}"/>
                 <DataGridTextColumn Header="Реєстрація" Width="auto" Binding="{Binding Path=DateCreated, StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridTextColumn Header="Особовий" Width="auto" Binding="{Binding CodeNew}"/>
                 <DataGridTextColumn Header="*" Width="auto" Binding="{Binding CodeOld}"/>
-                <DataGridTextColumn Header="Нас.пункт" Width="0.5*" Binding="{Binding City.Name}"/>
-                <DataGridTextColumn Header="Вулиця" Width="*" Binding="{Binding Street.Name}"/>
+                <DataGridTextColumn Header="Нас.пункт" Width="auto" Binding="{Binding City.Name}"/>
+                <DataGridTextColumn Header="Вулиця" Width="auto" Binding="{Binding Street.Name}"/>
                 <DataGridTextColumn Header="Буд." Width="auto" Binding="{Binding House}"/>
                 <DataGridTextColumn Header="Кв." Width="auto" Binding="{Binding Apartment}"/>
-                <DataGridTextColumn Header="Споживач" Width="0.6*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Споживач" Width="*" Binding="{Binding Name}"/>
             </DataGrid.Columns>
         </DataGrid>
+
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+
+            <Button Content="Видалити"
+                    Width="70" 
+                    Height="30" 
+                    Style="{StaticResource FooterButton}"
+                    Foreground="Red"
+                    Command="{Binding DelBook}"/>
+        </StackPanel>
+
+        <Label Grid.Row="3" 
+               Grid.ColumnSpan="2"
+               Content="Перелік документів в справі"
+               FontSize="18"               
+               HorizontalAlignment="Center"                             
+               Style="{StaticResource NameField}"/>
+
+        <DataGrid Grid.Row="4" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True"
+                  ItemsSource="{Binding Documents, 
+                                        UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding DocumentSelect, 
+                                         UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding InsDocument}"/>
+            </DataGrid.InputBindings>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Назва" Width="auto" Binding="{Binding DocumentType.Name}"/>
+                <DataGridTextColumn Header="Номер" Width="auto" Binding="{Binding NumberDocument}"/>
+                <DataGridTextColumn Header="Дата" Width="auto" Binding="{Binding DateDocument, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Виданий" Width="auto" Binding="{Binding OwnerDocument}"/>
+                <DataGridTextColumn Header="Опис" Width="*" Binding="{Binding DescriptionsDocument}"/>
+                <DataGridCheckBoxColumn Header="Скан." Width="auto" Binding="{Binding IsScannedDocument}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="5"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
             
+            <Button Content="Видалити"
+                    Width="70" 
+                    Height="30" 
+                    Style="{StaticResource FooterButton}"
+                    Foreground="Red"
+                    Command="{Binding DelDocument}"/>
+        </StackPanel>
+
     </Grid>
 </UserControl>

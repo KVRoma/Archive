@@ -1,0 +1,97 @@
+﻿<Window x:Class="Archive.Views.InformationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Archive.Views"
+        mc:Ignorable="d"
+        Title="{Binding Title}" 
+        MinHeight="500"
+        MinWidth="700"
+        Height="500" 
+        Width="700" 
+        MaxHeight="500"
+        MaxWidth="700"        
+        WindowStyle="None" 
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource Gradient_LightBlue_White_LightBlue}">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding Esc}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                    Key="Esc"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" 
+               Grid.ColumnSpan="2"
+               Content="Загальна інформація по об'єкту"
+               FontSize="18"               
+               HorizontalAlignment="Center"                             
+               Style="{StaticResource NameField}"/>
+        <Label Grid.Row="1" 
+               Grid.Column="0"
+               Content="Особовий рахунок"
+               HorizontalAlignment="Left"                           
+               Style="{StaticResource NameField}"/>
+        <Label Grid.Row="2" 
+               Grid.Column="0"
+               Content="П.І.Б."
+               HorizontalAlignment="Left"                           
+               Style="{StaticResource NameField}"/>
+        <Label Grid.Row="3" 
+               Grid.Column="0"
+               Content="Адреса"
+               HorizontalAlignment="Left"                           
+               Style="{StaticResource NameField}"/>
+        <Label Grid.Row="4" 
+               Grid.ColumnSpan="2"
+               Content="Інформація по лічильнику"
+               FontSize="18"               
+               HorizontalAlignment="Center"                             
+               Style="{StaticResource NameField}"/>
+        <Label Grid.Row="6" 
+               Grid.ColumnSpan="2"
+               Content="Інформація по обладнанню"
+               FontSize="18"               
+               HorizontalAlignment="Center"                             
+               Style="{StaticResource NameField}"/>
+        
+        
+
+        <TextBlock Grid.Row="1" 
+                   Grid.Column="1"
+                   Text="{Binding Data.Code}"
+                   Style="{StaticResource Cell}"/>
+        <TextBlock Grid.Row="2" 
+                   Grid.Column="1"
+                   Text="{Binding Data.Name}"
+                   Style="{StaticResource Cell}"/>
+        <TextBlock Grid.Row="3" 
+                   Grid.Column="1"
+                   Text="{Binding Data.Address}"
+                   Style="{StaticResource Cell}"/>
+        <TextBlock Grid.Row="5" 
+                   Grid.ColumnSpan="2"
+                   Text="{Binding Data.CounterInfo}"
+                   Style="{StaticResource Cell}"/>
+        <TextBlock Grid.Row="7" 
+                   Grid.ColumnSpan="2"
+                   Text="{Binding Data.DeviceInfo}"
+                   Style="{StaticResource Cell}"/>
+    </Grid>
+</Window>

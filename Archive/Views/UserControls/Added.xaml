@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dp="clr-namespace:Archive.Views.DependencyProp"
              mc:Ignorable="d" 
-             d:DesignHeight="450" 
+             d:DesignHeight="500" 
              d:DesignWidth="800"
              d:Background="Silver">
     <Grid>
@@ -62,7 +62,7 @@
                Content="Особовий"
                HorizontalAlignment="Left"
                VerticalAlignment="Center"
-               Margin="2,20,2,2"
+               Margin="2,40,2,2"
                Style="{StaticResource NameField}"/>
         <Label Grid.Row="7" 
                Grid.Column="0"
@@ -129,19 +129,18 @@
                     Foreground="Red"
                     Command="{Binding ClearAdded}"/>
         </StackPanel>
+        
         <TextBox Grid.Row="6"
                  Grid.Column="1"
-                 MinWidth="100" 
-                 MaxWidth="150"
+                 MinWidth="250"                 
                  HorizontalAlignment="Left"
-                 Margin="2,20,2,2"
+                 Margin="2,40,2,2"
                  dp:FocusAdvancement.AdvancesByEnterKey="True"
                  Text="{Binding TextBoxData[CodeNew], Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">            
         </TextBox>
         <TextBox Grid.Row="7"
                  Grid.Column="1"
-                 MinWidth="100" 
-                 MaxWidth="150"
+                 MinWidth="250"                 
                  HorizontalAlignment="Left"
                  dp:FocusAdvancement.AdvancesByEnterKey="True"
                  Text="{Binding TextBoxData[CodeOld], Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">            
@@ -160,8 +159,10 @@
             <Button Content="Реєстрація"
                     Width="150" 
                     Height="30" 
+                    VerticalAlignment="Top"
                     Style="{StaticResource FooterButton}"
-                    Foreground="Green"/>            
+                    Foreground="Green"
+                    Command="{Binding Register}"/>            
         </StackPanel>
 
         <DataGrid Grid.Row="0"
@@ -169,12 +170,14 @@
                   Grid.Column="2"
                   Margin="2"
                   AutoGenerateColumns="False" 
-                  IsReadOnly="True"
+                  IsReadOnly="True"                  
                   ItemsSource="{Binding DataStores, 
                                         UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding DataStoreSelect, 
                                          UpdateSourceTrigger=PropertyChanged}">
-            
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding InfoDataStore}"/>
+            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Рахунок" Width="auto" Binding="{Binding Code}"/>
                 <DataGridTextColumn Header="Нас.пункт" Width="0.5*" Binding="{Binding City}"/>

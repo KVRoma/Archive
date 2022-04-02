@@ -92,11 +92,19 @@
     <Compile Include="Models\DocumentType.cs" />
     <Compile Include="Models\Street.cs" />
     <Compile Include="Services\ControlName.cs" />
+    <Compile Include="ViewModels\DocumentViewModel.cs" />
+    <Compile Include="ViewModels\InformationViewModel.cs" />
     <Compile Include="Views\Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="DisplayRootRegistry.cs" />
     <Compile Include="NotifyTaskCompletion.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="Views\DocumentView.xaml.cs">
+      <DependentUpon>DocumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InformationView.xaml.cs">
+      <DependentUpon>InformationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\Added.xaml.cs">
       <DependentUpon>Added.xaml</DependentUpon>
     </Compile>
@@ -112,6 +120,14 @@
     <Compile Include="Views\UserControls\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\DocumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InformationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

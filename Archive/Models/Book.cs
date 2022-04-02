@@ -33,7 +33,7 @@ namespace Archive.Models
         {
             get 
             { 
-                return NumberBook + " " + CodeNew + "city" + CityId.ToString() + "street" + StreetId.ToString(); 
+                return NumberBook + CodeNew + CityId.ToString() + StreetId.ToString(); 
             }
         }
 
