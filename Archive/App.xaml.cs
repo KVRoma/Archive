@@ -22,6 +22,7 @@ namespace Archive
             displayRootRegistry.RegisterWindowType<MainViewModel, MainView>();
             displayRootRegistry.RegisterWindowType<InformationViewModel, InformationView>();
             displayRootRegistry.RegisterWindowType<DocumentViewModel, DocumentView>();
+            displayRootRegistry.RegisterWindowType<DictyionaryViewModel, DictyionaryView>();
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -37,6 +38,7 @@ namespace Archive
             displayRootRegistry.UnregisterWindowType<MainViewModel>();
             displayRootRegistry.UnregisterWindowType<InformationViewModel>();
             displayRootRegistry.UnregisterWindowType<DocumentViewModel>();
+            displayRootRegistry.UnregisterWindowType<DictyionaryViewModel>();
 
             base.OnExit(e);
         }

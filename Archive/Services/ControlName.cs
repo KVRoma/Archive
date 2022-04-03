@@ -21,5 +21,11 @@ namespace Archive.Services
         public const string ProgressBar = "ProgressBar";
 
         public const string ScreenOpacity = "ScreenOpacity";
+
+        public const string CityDictionary = "CityDictionary";        
+        public const string BookDictionary = "BookDictionary";
+        public const string DocumentDictionary = "DocumentDictionary";
+
+
     }
 }

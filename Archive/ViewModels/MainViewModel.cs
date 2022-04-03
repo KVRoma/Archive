@@ -230,9 +230,9 @@ namespace Archive.ViewModels
         private Command _insDocument;
         private Command _delDocument;
         private Command _delBook;
-        private Command _addDic;
-        private Command _insDic;
-        private Command _delDic;
+        private Command _cityDic;        
+        private Command _bookDic;
+        private Command _documentDic;
 
         public Command ExitApp => _exitApp ?? (_exitApp = new Command(obj =>
         {
@@ -377,9 +377,24 @@ namespace Archive.ViewModels
                 LoadBook();
             }
         }));
-        public Command AddDic => _addDic ?? (_addDic = new Command(obj => { }));
-        public Command InsDic => _insDic ?? (_insDic = new Command(obj => { }));
-        public Command DelDic => _delDic ?? (_delDic = new Command(obj => { }));
+        public Command CityDic => _cityDic ?? (_cityDic = new Command(async obj => 
+        {
+            var displayRootRegistry = (Application.Current as App).displayRootRegistry;
+            DictyionaryViewModel dic = new DictyionaryViewModel(ref db, ControlName.CityDictionary);
+            await displayRootRegistry.ShowModalPresentation(dic);
+        }));        
+        public Command BookDic => _bookDic ?? (_bookDic = new Command(async obj => 
+        {
+            var displayRootRegistry = (Application.Current as App).displayRootRegistry;
+            DictyionaryViewModel dic = new DictyionaryViewModel(ref db, ControlName.BookDictionary);
+            await displayRootRegistry.ShowModalPresentation(dic);
+        }));
+        public Command DocumentDic => _documentDic ?? (_documentDic = new Command(async obj => 
+        {
+            var displayRootRegistry = (Application.Current as App).displayRootRegistry;
+            DictyionaryViewModel dic = new DictyionaryViewModel(ref db, ControlName.DocumentDictionary);
+            await displayRootRegistry.ShowModalPresentation(dic);
+        }));
         #endregion
 
         public MainViewModel()

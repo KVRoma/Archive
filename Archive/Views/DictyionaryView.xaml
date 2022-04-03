@@ -1,0 +1,110 @@
+﻿<Window x:Class="Archive.Views.DictyionaryView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Archive.Views"
+        mc:Ignorable="d"
+        Title="{Binding Title}"
+        WindowStyle="ToolWindow"
+        MinHeight="500"
+        MinWidth="400"
+        Height="500" 
+        Width="400"
+        MaxHeight="500"
+        MaxWidth="400"
+        Background="{StaticResource Gradient_LightBlue_White_LightBlue}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        
+        <Label Grid.Row="0"
+               Content="{Binding NameTable}"
+               Style="{StaticResource NameField}"/>
+
+        <!-- Book -->
+        <DataGrid Grid.Row="1"
+                  Grid.RowSpan="3"
+                  Margin="5"
+                  Visibility="{Binding IsVisibility[BookDictionary]}"
+                  AutoGenerateColumns="False"                  
+                  ItemsSource="{Binding Context, 
+                                        UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding ContextSelect, 
+                                         UpdateSourceTrigger=PropertyChanged}">
+            
+            <DataGrid.Columns>                
+                <DataGridTextColumn Header="Назва" Width="*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Код" Width="auto" Binding="{Binding Key}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Document -->
+        <DataGrid Grid.Row="1" 
+                  Grid.RowSpan="3"
+                  Margin="5"
+                  Visibility="{Binding IsVisibility[DocumentDictionary]}"
+                  AutoGenerateColumns="False"                  
+                  ItemsSource="{Binding Context, 
+                                        UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding ContextSelect, 
+                                         UpdateSourceTrigger=PropertyChanged}">
+
+            <DataGrid.Columns>                
+                <DataGridTextColumn Header="Назва" Width="*" Binding="{Binding Name}"/>                
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- City -->
+        <DataGrid Grid.Row="1" 
+                  Margin="5"
+                  Visibility="{Binding IsVisibility[CityDictionary]}"
+                  AutoGenerateColumns="False"                  
+                  ItemsSource="{Binding Context, 
+                                        UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding ContextSelect, 
+                                         UpdateSourceTrigger=PropertyChanged}">
+
+            <DataGrid.Columns>                
+                <DataGridTextColumn Header="Назва" Width="*" Binding="{Binding Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Grid.Row="2"
+               Visibility="{Binding IsVisibility[CityDictionary]}"
+               Content="Вулиці"
+               Style="{StaticResource NameField}"/>
+        
+        <DataGrid Grid.Row="3" 
+                  Margin="5"
+                  Visibility="{Binding IsVisibility[CityDictionary]}"
+                  AutoGenerateColumns="False"                  
+                  ItemsSource="{Binding ContextSelect.Streets, 
+                                        UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding ItemSelect,
+                                         UpdateSourceTrigger=PropertyChanged}">
+
+            <DataGrid.Columns>                
+                <DataGridTextColumn Header="Назва" Width="*" Binding="{Binding Name}"/>                
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="4" 
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="Зберегти"
+                    Width="70" 
+                    Height="30" 
+                    Style="{StaticResource FooterButton}"
+                    Foreground="Green"
+                    Command="{Binding Save}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>            
+        </StackPanel>
+
+    </Grid>
+</Window>

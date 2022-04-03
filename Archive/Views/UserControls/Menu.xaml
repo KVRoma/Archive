@@ -8,16 +8,15 @@
              d:DesignHeight="50" d:DesignWidth="300">
     <Menu>
         <MenuItem Header="Робота">
-            <MenuItem Header="Друк"/>
+            <MenuItem Header="Друк наклейок"/>
             
-            <Separator/>
+            <Separator Margin="0,20,0,0"/>
             <MenuItem Header="Вихід" Foreground="Red" Command="{Binding ExitApp}"/>
         </MenuItem>
         <MenuItem Header="Довідники">
-            <MenuItem Header="Населені пункти"/>
-            <MenuItem Header="Вулиці"/>
-            <MenuItem Header="Назва справи"/>
-            <MenuItem Header="Назва документу"/>
+            <MenuItem Header="Населені пункти" Command="{Binding CityDic}"/>            
+            <MenuItem Header="Назва справи" Command="{Binding BookDic}"/>
+            <MenuItem Header="Назва документу" Command="{Binding DocumentDic}"/>
         </MenuItem>
     </Menu>
 </UserControl>

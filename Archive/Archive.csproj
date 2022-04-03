@@ -92,6 +92,7 @@
     <Compile Include="Models\DocumentType.cs" />
     <Compile Include="Models\Street.cs" />
     <Compile Include="Services\ControlName.cs" />
+    <Compile Include="ViewModels\DictyionaryViewModel.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
     <Compile Include="ViewModels\InformationViewModel.cs" />
     <Compile Include="Views\Converter\BoolToVisibilityConverter.cs" />
@@ -99,6 +100,9 @@
     <Compile Include="NotifyTaskCompletion.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="Views\DictyionaryView.xaml.cs">
+      <DependentUpon>DictyionaryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DocumentView.xaml.cs">
       <DependentUpon>DocumentView.xaml</DependentUpon>
     </Compile>
@@ -120,6 +124,10 @@
     <Compile Include="Views\UserControls\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\DictyionaryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DocumentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
