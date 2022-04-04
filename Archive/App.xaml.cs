@@ -33,7 +33,7 @@ namespace Archive
             base.OnStartup(e);
                     
             Validation valid = new Validation();
-            valid.Key = ConfigurationManager.AppSettings["key"].ToString();
+            valid.Key = ConfigurationManager.AppSettings["key"].ToString();   // зчитую з файла .config
             valid.Path = Environment.CurrentDirectory + @"\Keys\License.key";
 
             if (valid.IsValid())
