@@ -12,7 +12,7 @@ namespace Archive.Models
         public DateTime DateCreated { get; set; } = DateTime.Today;
 
         public string NumberDocument { get; set; }
-        public DateTime DateDocument { get; set; } = DateTime.Today;  
+        public DateTime DateDocument { get; set; } = DateTime.Today;
         public string OwnerDocument { get; set; }   
         public string DescriptionsDocument { get; set; }
         public bool IsScannedDocument { get; set; } = false; 

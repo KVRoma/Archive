@@ -78,7 +78,7 @@
         <DatePicker Grid.Row="3"
                     Grid.Column="1"
                     Margin="2"
-                    Text="{Binding Doc.DateDocument}"/>
+                    SelectedDate="{Binding Doc.DateDocument}"/>
         <TextBox Grid.Row="4"
                  Grid.Column="1"
                  Text="{Binding Doc.OwnerDocument}"/>
