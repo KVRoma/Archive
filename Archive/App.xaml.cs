@@ -1,4 +1,5 @@
-﻿using Archive.ViewModels;
+﻿using Archive.Resources.Validator;
+using Archive.ViewModels;
 using Archive.Views;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+
 
 namespace Archive
 {
@@ -23,14 +25,28 @@ namespace Archive
             displayRootRegistry.RegisterWindowType<InformationViewModel, InformationView>();
             displayRootRegistry.RegisterWindowType<DocumentViewModel, DocumentView>();
             displayRootRegistry.RegisterWindowType<DictyionaryViewModel, DictyionaryView>();
+            displayRootRegistry.RegisterWindowType<MessageViewModel, MessageView>();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+                    
+            Validation valid = new Validation();
+            valid.Key = ConfigurationManager.AppSettings["key"].ToString();
+            valid.Path = Environment.CurrentDirectory + @"\Keys\License.key";
 
-            var mainViewModel = new MainViewModel();
-            displayRootRegistry.ShowPresentation(mainViewModel);
+            if (valid.IsValid())
+            {
+                var mainViewModel = new MainViewModel();
+                displayRootRegistry.ShowPresentation(mainViewModel);
+            }
+            else
+            { 
+                MessageViewModel message = new MessageViewModel(valid.Message);
+                displayRootRegistry.ShowPresentation(message);
+            }
+            
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -39,6 +55,7 @@ namespace Archive
             displayRootRegistry.UnregisterWindowType<InformationViewModel>();
             displayRootRegistry.UnregisterWindowType<DocumentViewModel>();
             displayRootRegistry.UnregisterWindowType<DictyionaryViewModel>();
+            displayRootRegistry.UnregisterWindowType<MessageViewModel>();
 
             base.OnExit(e);
         }
