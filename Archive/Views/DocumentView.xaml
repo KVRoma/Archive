@@ -78,6 +78,8 @@
         <DatePicker Grid.Row="3"
                     Grid.Column="1"
                     Margin="2"
+                    Foreground="Blue"
+                    FontWeight="Bold"
                     SelectedDate="{Binding Doc.DateDocument}"/>
         <TextBox Grid.Row="4"
                  Grid.Column="1"
