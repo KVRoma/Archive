@@ -25,8 +25,23 @@ namespace Archive.Resources.Validator
         DateTime end;
         bool isInternet = true;
         
-        public bool IsValid()
+        public bool IsValid(bool IsNetworkTime)
         {
+            if (IsNetworkTime)
+            {
+                try
+                {
+                    today = GetNetworkTime();
+                }
+                catch //(Exception ex)
+                {
+                    isInternet = false;
+                }
+            }
+            else
+            {
+                today = DateTime.Today;
+            }
             try
             {
                 string decryptoToString = KeysGenerator.TripleDESImp.TripleDesDecrypt(KeysGenerator.FilesText.ReadFileText(Path), Key);
@@ -66,14 +81,7 @@ namespace Archive.Resources.Validator
         }
         private bool ValidationDate(string[] keysString)
         {
-            try
-            {
-                today = GetNetworkTime();
-            }
-            catch //(Exception ex)
-            {
-                isInternet = false;
-            }
+            
 
             if (isInternet && DateTime.TryParse(keysString[0], out start) && DateTime.TryParse(keysString[1], out end))
             {

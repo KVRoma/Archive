@@ -33,6 +33,7 @@ namespace Archive.ViewModels
         private BookType bookTypeSelect;
         private IEnumerable<Book> books;
         private Book bookSelect;
+        private bool isDelBook;
         #endregion
 
         #region public property
@@ -216,6 +217,15 @@ namespace Archive.ViewModels
                 LoadDocument();
             }
         }
+        public bool IsDelBook
+        {
+            get => isDelBook;
+            set
+            {
+                isDelBook = value;
+                OnPropertyChanged(nameof(IsDelBook));
+            }
+        }
         #endregion
 
         #region command
@@ -230,6 +240,7 @@ namespace Archive.ViewModels
         private Command _insDocument;
         private Command _delDocument;
         private Command _delBook;
+        private Command _delBookResolution;
         private Command _cityDic;        
         private Command _bookDic;
         private Command _documentDic;
@@ -300,6 +311,7 @@ namespace Archive.ViewModels
                 {
                     var num = db.Books.Where(x=>x.BookTypeId == BookTypeSelect.Id)?.Count();
                     num = (num != null) ? num + 1 : 1;
+                    
 
                     Book item = new Book() 
                     {
@@ -366,15 +378,29 @@ namespace Archive.ViewModels
                 db.Documents.Remove(DocumentSelect);
                 db.SaveChanges();
                 LoadDocument();
+                IsDelBook = false;
             }
         }));
         public Command DelBook => _delBook ?? (_delBook = new Command(obj => 
         {
             if (BookSelect != null)
             {
+
                 db.Books.Remove(BookSelect);
                 db.SaveChanges();
                 LoadBook();
+                IsDelBook = false;
+            }
+        }));
+        public Command DelBookResolution => _delBookResolution ?? (_delBookResolution = new Command(obj => 
+        {
+            if (IsDelBook)
+            {
+                IsDelBook = false;
+            }
+            else
+            {
+                IsDelBook = true;
             }
         }));
         public Command CityDic => _cityDic ?? (_cityDic = new Command(async obj => 
@@ -403,6 +429,7 @@ namespace Archive.ViewModels
             LoadIsChecked();
             LoadIsOpacity();
             LoadTextBoxData();
+            IsDelBook = false;
                         
             LoadDataBase();            
         }
@@ -457,7 +484,7 @@ namespace Archive.ViewModels
         }
         private void LoadDocument()
         {
-            Documents = db.Documents.Local.ToBindingList().Where(x=>x.BookId == BookSelect?.Id);
+            Documents = db.Documents.Local.ToBindingList().Where(x=>x.BookId == BookSelect?.Id)?.OrderBy(x=>x.DocumentTypeId);
         }
         private void LoadBookType()
         {
@@ -465,7 +492,7 @@ namespace Archive.ViewModels
         }
         private void LoadBook()
         {
-            Books = db.Books.Local.ToBindingList().OrderBy(x=>x.NumberBook);
+            Books = db.Books.Local.ToBindingList().OrderBy(x=>x.Id);
         }
         
         private void LoadIsIsVisibility()

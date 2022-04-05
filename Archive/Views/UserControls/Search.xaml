@@ -95,6 +95,7 @@
             <Button Content="Видалити"
                     Width="70" 
                     Height="30" 
+                    IsEnabled="{Binding IsDelBook, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource FooterButton}"
                     Foreground="Red"
                     Command="{Binding DelBook}"/>
@@ -134,6 +135,7 @@
             <Button Content="Видалити"
                     Width="70" 
                     Height="30" 
+                    IsEnabled="{Binding IsDelBook, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource FooterButton}"
                     Foreground="Red"
                     Command="{Binding DelDocument}"/>

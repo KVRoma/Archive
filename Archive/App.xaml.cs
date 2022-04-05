@@ -36,7 +36,7 @@ namespace Archive
             valid.Key = ConfigurationManager.AppSettings["key"].ToString();   // зчитую з файла .config
             valid.Path = Environment.CurrentDirectory + @"\Keys\License.key";
 
-            if (valid.IsValid())
+            if (valid.IsValid(false))
             {
                 var mainViewModel = new MainViewModel();
                 displayRootRegistry.ShowPresentation(mainViewModel);
