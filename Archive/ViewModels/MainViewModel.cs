@@ -635,10 +635,7 @@ namespace Archive.ViewModels
                                       db.Documents.Where(x => x.DateCreated == DateTime.Today).Count().ToString() + " шт." + Environment.NewLine;
 
         }
-        //private void LoadReport()
-        //{
-
-        //}
+        
 
         private void ExitApplication()
         {
