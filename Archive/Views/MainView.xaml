@@ -38,6 +38,15 @@
                                                  UpdateSourceTrigger=PropertyChanged}"/>
             <Border Grid.Column="1"
                     Style="{StaticResource BorderRadius}">
+                <uc:Statistic Visibility="{Binding Path=IsChecked[Report], 
+                                         UpdateSourceTrigger=PropertyChanged, 
+                                         Converter={StaticResource BoolToCollapsedConverter}}"
+                           Opacity="{Binding IsOpacity[ScreenOpacity], 
+                                             UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
+            
+            <Border Grid.Column="1"
+                    Style="{StaticResource BorderRadius}">
                 <uc:Search Visibility="{Binding Path=IsChecked[Search], 
                                          UpdateSourceTrigger=PropertyChanged, 
                                          Converter={StaticResource BoolToCollapsedConverter}}"

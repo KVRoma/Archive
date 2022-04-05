@@ -5,19 +5,46 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Archive.Views.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="300">
+             d:DesignHeight="50" 
+             d:DesignWidth="500">
     <Menu>
         <MenuItem Header="Робота">
-            <MenuItem Header="Друк наклейок"/>
-            <MenuItem Header="Дозволити видалення справи" Command="{Binding DelBookResolution}" />
+            
+            <MenuItem Header="Дозволити видалення" 
+                      Style="{StaticResource MenuItem}"
+                      Foreground="Green"
+                      Command="{Binding DelBookResolution}" />
 
             <Separator Margin="0,20,0,0"/>
-            <MenuItem Header="Вихід" Foreground="Red" Command="{Binding ExitApp}"/>
+            <MenuItem Header="Вихід" 
+                      Style="{StaticResource MenuItem}" 
+                      Foreground="Red" 
+                      Command="{Binding ExitApp}"/>
         </MenuItem>
         <MenuItem Header="Довідники">
-            <MenuItem Header="Населені пункти" Command="{Binding CityDic}"/>            
-            <MenuItem Header="Назва справи" Command="{Binding BookDic}"/>
-            <MenuItem Header="Назва документу" Command="{Binding DocumentDic}"/>
+            <MenuItem Header="Населені пункти" 
+                      Style="{StaticResource MenuItem}" 
+                      Command="{Binding CityDic}"/>
+            <MenuItem Header="Назва справи" 
+                      Style="{StaticResource MenuItem}" 
+                      Command="{Binding BookDic}"/>
+            <MenuItem Header="Назва документу" 
+                      Style="{StaticResource MenuItem}" 
+                      Command="{Binding DocumentDic}"/>
+        </MenuItem>
+        <MenuItem Header="Перевірки">
+            <MenuItem Header="1.Справи без документів" 
+                      Style="{StaticResource MenuItem}"
+                      Command="{Binding Filter1}"/>
+            <MenuItem Header="2.Часткова комплектація" 
+                      Style="{StaticResource MenuItem}"
+                      Command="{Binding Filter2}"/>
+            <MenuItem Header="3.Свіжа дата в документі" 
+                      Style="{StaticResource MenuItem}"
+                      Command="{Binding Filter3}"/>
+            <MenuItem Header="4.Подвійні документи" 
+                      Style="{StaticResource MenuItem}"
+                      Command="{Binding Filter4}"/>
         </MenuItem>
     </Menu>
 </UserControl>

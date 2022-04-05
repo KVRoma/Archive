@@ -34,6 +34,7 @@ namespace Archive.ViewModels
         private IEnumerable<Book> books;
         private Book bookSelect;
         private bool isDelBook;
+        private Dictionary<string, string> report;
         #endregion
 
         #region public property
@@ -226,6 +227,15 @@ namespace Archive.ViewModels
                 OnPropertyChanged(nameof(IsDelBook));
             }
         }
+        public Dictionary<string, string> Report
+        {
+            get => report;
+            set
+            {
+                report = value;
+                OnPropertyChanged(nameof(Report));
+            }
+        }
         #endregion
 
         #region command
@@ -244,6 +254,10 @@ namespace Archive.ViewModels
         private Command _cityDic;        
         private Command _bookDic;
         private Command _documentDic;
+        private Command _filter1;
+        private Command _filter2;
+        private Command _filter3;
+        private Command _filter4;
 
         public Command ExitApp => _exitApp ?? (_exitApp = new Command(obj =>
         {
@@ -258,7 +272,7 @@ namespace Archive.ViewModels
                 LoadBook();                
                 CitySelect = null;
                 BookTypeSelect = BookTypes.First();
-                
+                LoadReport();
             });
             ProgressBarStop();                        
         }));
@@ -421,6 +435,64 @@ namespace Archive.ViewModels
             DictyionaryViewModel dic = new DictyionaryViewModel(ref db, ControlName.DocumentDictionary);
             await displayRootRegistry.ShowModalPresentation(dic);
         }));
+        public Command Filter1 => _filter1 ?? (_filter1 = new Command(obj => 
+        {
+            if (!IsChecked[ControlName.Search])
+            {
+                IsChecked[ControlName.Search] = true;
+                OnPropertyChanged(nameof(IsChecked));
+            }
+
+            Books = Books.Where(x => x.Documents.Count == 0);
+        }));
+        public Command Filter2 => _filter2 ?? (_filter2 = new Command(obj => 
+        {
+            if (!IsChecked[ControlName.Search])
+            {
+                IsChecked[ControlName.Search] = true;
+                OnPropertyChanged(nameof(IsChecked));
+            }
+
+            List<Book> doubleDoc = new List<Book>();
+            foreach (var book in Books)
+            {
+                var temp =book.Documents.Where(x=>x.DocumentTypeId >= 1 && x.DocumentTypeId <= 4).Select(x=>x.DocumentTypeId).Distinct();
+                if (temp.Count() != 4)
+                {
+                    doubleDoc.Add(book);
+                }
+            }
+            Books = doubleDoc;
+        }));
+        public Command Filter3 => _filter3 ?? (_filter3 = new Command(obj => 
+        {
+            if (!IsChecked[ControlName.Search])
+            {
+                IsChecked[ControlName.Search] = true;
+                OnPropertyChanged(nameof(IsChecked));
+            }
+
+            Books = db.Documents.Where(x => x.DateDocument == x.DateCreated).Select(x=>x.Book).ToList();
+        }));
+        public Command Filter4 => _filter4 ?? (_filter4 = new Command(obj => 
+        {
+            if (!IsChecked[ControlName.Search])
+            {
+                IsChecked[ControlName.Search] = true;
+                OnPropertyChanged(nameof(IsChecked));
+            }
+
+            List<Book> doubleDoc = new List<Book>();
+            foreach (Book book in Books)
+            {
+                var temp = book.Documents.Select(x => x.DocumentTypeId);
+                if (temp.Count() != temp.Distinct().Count())
+                {
+                    doubleDoc.Add(book);
+                }
+            }
+            Books = doubleDoc;              
+        }));
         #endregion
 
         public MainViewModel()
@@ -431,7 +503,9 @@ namespace Archive.ViewModels
             LoadTextBoxData();
             IsDelBook = false;
                         
-            LoadDataBase();            
+            LoadDataBase();
+
+            LoadReport();
         }
 
         #region methods
@@ -529,7 +603,43 @@ namespace Archive.ViewModels
                 { ControlName.NameBook, ""}
             };
         }
-        
+        private void LoadReport()
+        {
+            Report = new Dictionary<string, string>
+            {
+                { "ReportLeft", ""},
+                { "ReportRight", ""},
+                { "ReportFooter", ""}
+            };
+            //**************************************************************************************************************************************            
+            var temp = db.BookTypes.Select(x => x.Name).ToList();
+            foreach (var item in temp)
+            {
+                Report["ReportLeft"] += item + " " + db.Books.Where(x => x.BookType.Name == item).Count().ToString() + " шт." + Environment.NewLine;
+            }
+            //***************************************************************************************************************************************            
+            temp = db.DocumentTypes.Select(x => x.Name).ToList();
+            foreach (var item in temp)
+            {
+                Report["ReportRight"] += item + " " + db.Documents.Where(x => x.DocumentType.Name == item).Count().ToString() + " шт." + Environment.NewLine;
+            }
+            //***************************************************************************************************************************************
+            Report["ReportFooter"] = "Опрацьовано за поточний місяць: Справ: " + 
+                                      db.Books.Where(x=>x.DateCreated.Month == DateTime.Today.Month).Count().ToString() + " шт. / Документів: " + 
+                                      db.Documents.Where(x => x.DateCreated.Month == DateTime.Today.Month).Count().ToString() + " шт." + Environment.NewLine +
+                                      "Опрацьовано за минулу добу: Справ: " +
+                                      db.Books.Where(x => x.DateCreated.Day == (DateTime.Today.Day - 1)).Count().ToString() + " шт. / Документів: " +
+                                      db.Documents.Where(x => x.DateCreated.Day == (DateTime.Today.Day - 1)).Count().ToString() + " шт." + Environment.NewLine +
+                                      "Опрацьовано за поточну добу: Справ: " +
+                                      db.Books.Where(x => x.DateCreated == DateTime.Today).Count().ToString() + " шт. / Документів: " +
+                                      db.Documents.Where(x => x.DateCreated == DateTime.Today).Count().ToString() + " шт." + Environment.NewLine;
+
+        }
+        //private void LoadReport()
+        //{
+
+        //}
+
         private void ExitApplication()
         {
             db.Dispose();
