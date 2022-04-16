@@ -10,6 +10,7 @@ namespace Archive.Models
     {
         public int Id { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Today;
+        public int Number { get; set; }
         public string NumberBook { get; set; }
         public string CodeNew { get; set; }
         public string CodeOld { get; set; }

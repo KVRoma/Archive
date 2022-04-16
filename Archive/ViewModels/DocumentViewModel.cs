@@ -68,7 +68,7 @@ namespace Archive.ViewModels
         private Command _cancelCommand;
         public Command OkCommand => _okCommand ?? (_okCommand = new Command(obj => 
         {
-            if (obj is System.Windows.Window)
+            if (Doc.DateDocument < Doc.DateCreated && (obj is System.Windows.Window))
             {
                 IsSuccess = true;
                 Doc.DocumentType = DocTypeSelect;

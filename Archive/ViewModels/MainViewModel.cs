@@ -104,6 +104,8 @@ namespace Archive.ViewModels
                     TextBoxData[ControlName.CodeNew] = DataStoreSelect.Code;
                     TextBoxData[ControlName.NameBook] = DataStoreSelect.Name;
                     OnPropertyChanged(nameof(TextBoxData));
+                    Report["Error"] = "";
+                    OnPropertyChanged(nameof(Report));
                 }
             }
         }
@@ -323,28 +325,41 @@ namespace Archive.ViewModels
                 ProgressBarStart();
                 await Task.Run(() =>
                 {
-                    var num = db.Books.Where(x=>x.BookTypeId == BookTypeSelect.Id)?.Count();
-                    num = (num != null) ? num + 1 : 1;
+                    //*** Визначаю порядковий номер
+                    var temp = db.Books.Where(x => x.BookTypeId == BookTypeSelect.Id);
+                    int num = (temp?.Count() != 0) ? (temp.Max(x=>x.Number) + 1) : 1;
                     
+                    //*** Перевірка дублікату
+                    string code = TextBoxData[ControlName.CodeNew];
+                    var filter = temp.Where(x => x.CodeNew == code);
 
-                    Book item = new Book() 
+                    if (filter?.Count() == 0)
                     {
-                        NumberBook = num.ToString() + BookTypeSelect.Key,
-                        CodeNew = TextBoxData[ControlName.CodeNew],
-                        CodeOld = TextBoxData[ControlName.CodeOld],
-                        Name = TextBoxData[ControlName.NameBook],                        
-                        City = CitySelect,                        
-                        Street = StreetSelect,
-                        House = TextBoxData[ControlName.House],
-                        Apartment = TextBoxData[ControlName.Apartment],                        
-                        BookType = BookTypeSelect
-                    };
-                    db.Books.Add(item);
-                    db.SaveChanges();
-                    ClearAdded.Execute("");                    
+                        Book item = new Book()
+                        {
+                            Number = num,
+                            NumberBook = num.ToString() + BookTypeSelect.Key,
+                            CodeNew = TextBoxData[ControlName.CodeNew],
+                            CodeOld = TextBoxData[ControlName.CodeOld],
+                            Name = TextBoxData[ControlName.NameBook],
+                            City = CitySelect,
+                            Street = StreetSelect,
+                            House = TextBoxData[ControlName.House],
+                            Apartment = TextBoxData[ControlName.Apartment],
+                            BookType = BookTypeSelect
+                        };
+                        db.Books.Add(item);
+                        db.SaveChanges();
+                        ClearAdded.Execute("");
+                    }
+                    else 
+                    {
+                        Report["Error"] = "Справа вже зареєстрована за номером - " + filter.FirstOrDefault().NumberBook + " !!!";
+                        OnPropertyChanged(nameof(Report));
+                    }
                 });
                 ProgressBarStop();
-            }            
+    }            
         }));
         public Command AddDocument => _addDocument ?? (_addDocument = new Command(async obj => 
         {
@@ -566,7 +581,7 @@ namespace Archive.ViewModels
         }
         private void LoadBook()
         {
-            Books = db.Books.Local.ToBindingList().OrderBy(x=>x.Id);
+            Books = db.Books.Local.ToBindingList().OrderBy(x=>x.BookTypeId).ThenBy(x=>x.Id);
         }
         
         private void LoadIsIsVisibility()
@@ -609,7 +624,8 @@ namespace Archive.ViewModels
             {
                 { "ReportLeft", ""},
                 { "ReportRight", ""},
-                { "ReportFooter", ""}
+                { "ReportFooter", ""},
+                { "Error","" }
             };
             //**************************************************************************************************************************************            
             var temp = db.BookTypes.Select(x => x.Name).ToList();

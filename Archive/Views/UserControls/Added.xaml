@@ -20,6 +20,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -163,6 +164,18 @@
                     Style="{StaticResource FooterButton}"
                     Foreground="Green"
                     Command="{Binding Register}"/>            
+        </StackPanel>
+
+        <StackPanel Grid.Row="10" 
+                    Grid.ColumnSpan="3" 
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Label Content="{Binding Report[Error], UpdateSourceTrigger=PropertyChanged}"
+                   HorizontalContentAlignment="Center"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   VerticalContentAlignment="Center"
+                   Style="{StaticResource ProgressBar}" />
         </StackPanel>
 
         <DataGrid Grid.Row="0"
