@@ -86,7 +86,7 @@
                  Text="{Binding Doc.OwnerDocument}"/>
         <TextBox Grid.Row="5"
                  Grid.Column="1"
-                 Text=""/>
+                 Text="{Binding Doc.DescriptionsDocument}"/>
         <CheckBox Grid.Row="6"
                   Grid.Column="1"
                   HorizontalAlignment="Center"
